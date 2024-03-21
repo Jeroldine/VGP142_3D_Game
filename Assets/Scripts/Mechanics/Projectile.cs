@@ -26,5 +26,11 @@ public class Projectile : MonoBehaviour
     }
 
     // collision handling below
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<Enemy>().TakeDamage();
+        }
+    }
 }

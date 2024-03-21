@@ -29,12 +29,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""1bc7f36a-a88c-40c9-8217-2406cfd635e4"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Attack"",
@@ -50,6 +50,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""dade76c8-55bc-4ebe-8f8b-46a716ec0432"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Kick"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e7e15c2-fa66-432f-9f34-985b52414929"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""5656b5b9-8970-46cd-80b6-0c5501aee703"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""da5cff0c-e2c2-4a42-98a9-3f1e14a2a208"",
+                    ""expectedControlType"": ""Delta"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -132,6 +159,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24d9c4f0-470f-4bf0-940b-4a1a8d7b6385"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9cf5353-561b-4775-8e93-b61079af4a78"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc568f09-b901-4c31-af0c-d4ee9ff0f1b2"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +203,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Console_Move = m_Console.FindAction("Move", throwIfNotFound: true);
         m_Console_Attack = m_Console.FindAction("Attack", throwIfNotFound: true);
         m_Console_Jump = m_Console.FindAction("Jump", throwIfNotFound: true);
+        m_Console_Kick = m_Console.FindAction("Kick", throwIfNotFound: true);
+        m_Console_Throw = m_Console.FindAction("Throw", throwIfNotFound: true);
+        m_Console_Look = m_Console.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +270,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Console_Move;
     private readonly InputAction m_Console_Attack;
     private readonly InputAction m_Console_Jump;
+    private readonly InputAction m_Console_Kick;
+    private readonly InputAction m_Console_Throw;
+    private readonly InputAction m_Console_Look;
     public struct ConsoleActions
     {
         private @PlayerControls m_Wrapper;
@@ -214,6 +280,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Console_Move;
         public InputAction @Attack => m_Wrapper.m_Console_Attack;
         public InputAction @Jump => m_Wrapper.m_Console_Jump;
+        public InputAction @Kick => m_Wrapper.m_Console_Kick;
+        public InputAction @Throw => m_Wrapper.m_Console_Throw;
+        public InputAction @Look => m_Wrapper.m_Console_Look;
         public InputActionMap Get() { return m_Wrapper.m_Console; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +301,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Kick.started += instance.OnKick;
+            @Kick.performed += instance.OnKick;
+            @Kick.canceled += instance.OnKick;
+            @Throw.started += instance.OnThrow;
+            @Throw.performed += instance.OnThrow;
+            @Throw.canceled += instance.OnThrow;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IConsoleActions instance)
@@ -245,6 +323,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Kick.started -= instance.OnKick;
+            @Kick.performed -= instance.OnKick;
+            @Kick.canceled -= instance.OnKick;
+            @Throw.started -= instance.OnThrow;
+            @Throw.performed -= instance.OnThrow;
+            @Throw.canceled -= instance.OnThrow;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IConsoleActions instance)
@@ -267,5 +354,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnKick(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }

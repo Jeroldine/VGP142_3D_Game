@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     // components
     CharacterController cc;
     Animator anim;
-    PlayerControls playerControls;
-    Shoot shoot;
+    //PlayerControls playerControls;
 
     // aux references
     Enemy enemy;
@@ -21,47 +21,62 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float turnRatio = 0.1f;
     [SerializeField] LayerMask enemyCheck;
 
-    // misc
-    public float speedY;
-    //Vector3 camRelMoveInput;
+    // controls and movement
+    public float speedY; // public because I want to see it in Inspector
+    private float moveInputModifier = 1.0f;
 
-    private void Awake()
-    {
-        playerControls = new PlayerControls();
-        //playerControls.Console.Move.performed += MovePerformed;
-        //playerControls.Console.Jump.performed += ctx => JumpPressed();
-        //playerControls.Console.Attack.performed += ctx => AttackPressed(); ;
-    }
+    //private void Awake()
+    //{
+    //    playerControls = new PlayerControls();
+    //    playerControls.Console.Move.performed += MovePerformed;
+    //    playerControls.Console.Jump.performed += ctx => JumpPressed();
+    //    playerControls.Console.Attack.performed += ctx => AttackPressed();
+    //    playerControls.Console.Kick.performed += ctx => KickPressed();
+    //    playerControls.Console.Throw.performed += ctx => ThrowPressed();
+    //    playerControls.Console.Look.performed += ctx => LookPerformed();
+    //}
 
-    private void AttackPressed()
-    {
-        throw new NotImplementedException();
-    }
+    //private void OnEnable()
+    //{
+    //    playerControls.Enable();
+    //}
 
-    private void JumpPressed()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void OnEnable()
-    {
-        playerControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerControls.Disable();
-    }
+    //private void OnDisable()
+    //{
+    //    playerControls.Disable();
+    //}
 
     //private void MovePerformed(InputAction.CallbackContext ctx)
     //{
-    //    Vector2 moveInput = ctx.ReadValue<Vector2>();
-    //    Debug.Log(moveInput);
-    //    Vector3 dir = new Vector3(moveInput.x, 0, moveInput.y);
+    //    //Vector2 moveInput = ctx.ReadValue<Vector2>();
+    //    moveInput = ctx.ReadValue<Vector2>();
 
-    //    //get facing direction of freeCamera
-    //    Vector3 cameraForward = Camera.main.transform.forward;
-    //    Vector3 cameraRight = Camera.main.transform.right;
+    //    ////get facing direction of freeCamera
+    //    //Vector3 cameraForward = Camera.main.transform.forward;
+    //    //Vector3 cameraRight = Camera.main.transform.right;
+
+    //    //cameraForward.y = 0;
+    //    //cameraRight.y = 0;
+
+    //    //cameraForward.Normalize();
+    //    //cameraRight.Normalize();
+
+    //    //camRelMoveInput = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+
+    //    //camRelMoveInput.x *= speed;
+    //    //camRelMoveInput.z *= speed;
+
+    //    anim.SetFloat("Speed", moveInput.magnitude);
+
+    //}
+
+    //private void LookPerformed()
+    //{
+    //    //Vector3 cameraForward = Camera.main.transform.forward;
+    //    //Vector3 cameraRight = Camera.main.transform.right;
+
+    //    cameraForward = Camera.main.transform.forward;
+    //    cameraRight = Camera.main.transform.right;
 
     //    cameraForward.y = 0;
     //    cameraRight.y = 0;
@@ -69,18 +84,16 @@ public class PlayerController : MonoBehaviour
     //    cameraForward.Normalize();
     //    cameraRight.Normalize();
 
-    //    camRelMoveInput = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+    //    //camRelMoveInput = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
 
-    //    //if (camRelMoveInput.magnitude > 0)
-    //    //{
-    //    //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camRelMoveInput), turnRatio);
-    //    //}
+    //    //camRelMoveInput.x *= speed;
+    //    //camRelMoveInput.z *= speed;
+    //}
 
-    //    camRelMoveInput *= speed;
-
-    //    anim.SetFloat("Speed", dir.magnitude);
-
-
+    //private void JumpPressed()
+    //{
+    //    camRelMoveInput.y = jumpSpeed;
+    //    speedY = jumpSpeed;
     //}
 
     void Start()
@@ -89,7 +102,6 @@ public class PlayerController : MonoBehaviour
         {
             cc = GetComponent<CharacterController>();
             anim = GetComponentInChildren<Animator>();
-            shoot = GetComponent<Shoot>();
             
             if (speed < 0)
             {
@@ -106,7 +118,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log(e.Message);
         }
 
-        //Debug.Log("camRelMoveInput = " + camRelMoveInput.magnitude);
         //GameManager.Instance.TestGameManager();
     }
 
@@ -117,8 +128,52 @@ public class PlayerController : MonoBehaviour
 
         float hInput = Input.GetAxis("Horizontal");
         float fInput = Input.GetAxis("Vertical");
+        Vector2 dir = new Vector2(hInput, fInput);
 
-        Vector3 dir = new Vector3(hInput, 0, fInput);
+
+        Vector3 camRelMoveInput = GetCamRelativeMoveInput(hInput, fInput);
+
+        FaceTravelDirection(camRelMoveInput);
+
+        camRelMoveInput *= speed;
+
+        // Jump
+        if (cc.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            camRelMoveInput.y = jumpSpeed;
+            speedY = jumpSpeed;
+        }
+
+        if (!cc.isGrounded) // update vertical speed if in the air
+        {
+            speedY -= gravity * Time.deltaTime;
+            if (speedY <= -100.0f)
+                speedY = -100.0f;
+            camRelMoveInput.y = speedY;
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+            AttackPressed();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            KickPressed();
+
+        if (Input.GetButtonDown("Fire2"))
+            ThrowPressed();
+
+        //camRelMoveInput.y = speedY;
+        anim.SetFloat("Speed", moveInputModifier* dir.magnitude);
+        cc.Move(camRelMoveInput * Time.deltaTime);
+
+        Glare();
+    }
+
+    private Vector3 GetCamRelativeMoveInput(float hInput, float fInput)
+    {
+        AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
+        string clipName = clipinfo[0].clip.name;
+        if (clipName == "Attack" || clipName == "Throw" || clipName == "Kick")
+            return Vector3.zero;
 
         Vector3 cameraForward = Camera.main.transform.forward;
         Vector3 cameraRight = Camera.main.transform.right;
@@ -129,44 +184,48 @@ public class PlayerController : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 camRelMoveInput = (cameraForward * fInput + cameraRight * hInput).normalized;
+        return (cameraForward * fInput + cameraRight * hInput).normalized;
+    }
 
-        if (camRelMoveInput.magnitude > 0)
+    private void FaceTravelDirection(Vector3 CRMI)
+    {
+        float xCRMI = CRMI.x;
+        float zCRMI = CRMI.z;
+        if (( xCRMI*xCRMI + zCRMI*zCRMI ) > 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(camRelMoveInput), turnRatio);
+            Vector3 lookDir = new Vector3(xCRMI, 0, zCRMI);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnRatio);
         }
+    }
 
-        camRelMoveInput *= speed;
+    private void AttackPressed()
+    {
+        AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
+        if (clipinfo[0].clip.name != "Attack")
+            anim.SetTrigger("Attack");
+    }
 
-        if (cc.isGrounded && Input.GetButtonDown("Jump"))
-        {
-            camRelMoveInput.y = jumpSpeed;
-            speedY = jumpSpeed;
-        }
-        else if (!cc.isGrounded)
-        {
-            speedY -= gravity * Time.deltaTime;
-            if (speedY <= -100.0f)
-                speedY = -100.0f;
-            camRelMoveInput.y = speedY;
-        }
+    private void KickPressed()
+    {
+        AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
+        if (clipinfo[0].clip.name != "Kick")
+            anim.SetTrigger("Kick");
+    }
 
-        if  (Input.GetButtonDown("Fire1"))
-        {
-            shoot.Fire();
-        }
+    private void ThrowPressed()
+    {
+        AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
+        if (clipinfo[0].clip.name != "Throw")
+            anim.SetTrigger("Throw");
+    }
 
-        camRelMoveInput.y = speedY;
-        anim.SetFloat("Speed", dir.magnitude);
-        cc.Move(camRelMoveInput * Time.deltaTime);
-
-        //Ray ray = new Ray(transform.position, transform.forward);
+    private void Glare()
+    {
         RaycastHit hitInfo;
 
         Debug.DrawLine(transform.position, transform.position + transform.forward * 10.0f, Color.red);
-        //Physics.BoxCast(m_Collider.bounds.center, transform.localScale * 0.5f, transform.forward, out m_Hit, transform.rotation, m_MaxDistance);
-        //if (Physics.Raycast(ray, out hitInfo, 10.0f, enemyCheck))
-        if (Physics.BoxCast(transform.position, transform.localScale * 0.5f, transform.forward, out hitInfo, transform.rotation, 20.0f, enemyCheck))
+        float castDistance = 20.0f;
+        if (Physics.BoxCast(transform.position, transform.localScale * 0.5f, transform.forward, out hitInfo, transform.rotation, castDistance, enemyCheck))
         {
             if (!enemy)
             {
@@ -183,6 +242,4 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    
 }

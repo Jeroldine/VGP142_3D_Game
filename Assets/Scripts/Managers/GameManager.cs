@@ -34,8 +34,8 @@ public class GameManager : Singleton<GameManager>
 
     // PLAYER ATTRIBUTES
     // Health 
-    [SerializeField] int maxHP = 100;
-    private int _currentHP = 50;
+    [SerializeField] int maxHP = 5;
+    private int _currentHP = 5;
     public int currentHP
     {
         get { return _currentHP; }
@@ -43,15 +43,15 @@ public class GameManager : Singleton<GameManager>
         {
             _currentHP = value;
 
-            if (_currentHP > maxHP)
-                _currentHP = maxHP;
-            else if (_currentHP <= 0)
+            _currentHP = Mathf.Clamp(_currentHP, 0, maxHP);
+
+            OnHPValueChanged?.Invoke(_currentHP);
+
+            if (_currentHP <= 0)
             {
                 Debug.Log("You dead");
             }
-
-            OnHPValueChanged?.Invoke(_currentHP);
-            Debug.Log("HP has been set to: " + _currentHP.ToString());
+            //Debug.Log("HP has been set to: " + _currentHP.ToString());
         }
     }
 
