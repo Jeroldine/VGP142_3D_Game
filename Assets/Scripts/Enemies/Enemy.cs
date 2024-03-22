@@ -68,8 +68,4 @@ public class Enemy : MonoBehaviour
         spottedByPlayer = stop;
     }
 
-    public void TakeDamage()
-    {
-        anim.SetTrigger("Death");
-    }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,17 +11,22 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent<int> OnHPValueChanged;
     public UnityEvent<int> OnCurrencyValueChanged;
     public UnityEvent<int> OnSilkBundleValueChanged;
+    public UnityEvent<bool> OnPlayerDeath;
 
     // pause state
-    bool _isPaused = false;
+    private bool _isPaused = false;
     public bool isPaused
     {
         get => _isPaused;
         set => _isPaused = value;
     }
 
+    // death state
+    private bool _isDead = false;
+    public bool isDead { get => _isDead; set => _isDead = value; }
+
     // end of level state
-    bool _isAtEndOfLevel = false;
+    private bool _isAtEndOfLevel = false;
     public bool isAtEndOfLevel
     {
         get => _isAtEndOfLevel;
@@ -50,6 +56,11 @@ public class GameManager : Singleton<GameManager>
             if (_currentHP <= 0)
             {
                 Debug.Log("You dead");
+                if (!_isDead)
+                {
+                    _isDead = true;
+                    OnPlayerDeath?.Invoke(_isDead);
+                }
             }
             //Debug.Log("HP has been set to: " + _currentHP.ToString());
         }
@@ -105,5 +116,17 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         
+    }
+
+    public void LoadLevel(int buildIndex)
+    {
+        SceneManager.LoadScene(buildIndex);
+    }
+
+    public void Respawn()
+    {
+        _isDead = false;
+        // This where I can load a save file
+        _currentHP = maxHP;
     }
 }

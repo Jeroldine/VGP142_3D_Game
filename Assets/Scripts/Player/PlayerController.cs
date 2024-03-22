@@ -118,13 +118,16 @@ public class PlayerController : MonoBehaviour
             Debug.Log(e.Message);
         }
 
-        //GameManager.Instance.TestGameManager();
+        GameManager.Instance.OnPlayerDeath.AddListener((value) => ActivatePlayerDeath(value));
+
+        if (GameManager.Instance.isDead)
+            ActivatePlayerDeath(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.isPaused) return;
+        if (GameManager.Instance.isPaused || GameManager.Instance.isDead) return;
 
         float hInput = Input.GetAxis("Horizontal");
         float fInput = Input.GetAxis("Vertical");
@@ -160,10 +163,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
             ThrowPressed();
+            
 
         //camRelMoveInput.y = speedY;
         anim.SetFloat("Speed", moveInputModifier* dir.magnitude);
-        cc.Move(camRelMoveInput * Time.deltaTime);
+        cc.Move(moveInputModifier * camRelMoveInput * Time.deltaTime);
 
         Glare();
     }
@@ -217,6 +221,18 @@ public class PlayerController : MonoBehaviour
         AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
         if (clipinfo[0].clip.name != "Throw")
             anim.SetTrigger("Throw");
+    }
+
+    private void ActivatePlayerDeath(bool val)
+    {
+        AnimatorClipInfo[] clipinfo = anim.GetCurrentAnimatorClipInfo(0);
+        if (clipinfo[0].clip.name != "Zombie Death")
+            anim.SetBool("Death", true);
+    }
+
+    public void ChangeMoveInputModifier(float mod)
+    {
+        moveInputModifier = mod;
     }
 
     private void Glare()

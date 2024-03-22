@@ -9,7 +9,7 @@ public class Hitbox : MonoBehaviour
         Debug.Log("Something Entered the hitbox");
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>().TakeDamage();
+            other.GetComponent<EnemyManager>().TakeDamage(1);
         }
     }
 }

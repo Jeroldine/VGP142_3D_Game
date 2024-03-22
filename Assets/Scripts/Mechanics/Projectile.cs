@@ -6,6 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] float lifeTime;
+    [SerializeField] float damage = 1;
 
     float xSpeed;
     float ySpeed;
@@ -30,7 +31,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage();
+            collision.gameObject.GetComponent<EnemyManager>().TakeDamage(damage);
         }
     }
 }
