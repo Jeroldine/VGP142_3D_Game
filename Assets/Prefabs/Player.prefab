@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2724624629937948908}
+  - component: {fileID: 9172101552424638210}
+  - component: {fileID: 5067527240899816272}
   m_Layer: 0
   m_Name: ProjectileSpawn
   m_TagString: Untagged
@@ -31,6 +33,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9136156812915596347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &9172101552424638210
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4252028632821680289}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5067527240899816272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4252028632821680289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d422a9358a46d4469e43d93ece61ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8722536920141205070
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,6 +75,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9200689320520114827}
+  - component: {fileID: 6815284727650856704}
+  - component: {fileID: 1502470119646776945}
   m_Layer: 0
   m_Name: FootSpawn
   m_TagString: Untagged
@@ -62,6 +99,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5694299537334711643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6815284727650856704
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8722536920141205070}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1502470119646776945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8722536920141205070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d422a9358a46d4469e43d93ece61ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9114896407102578632
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,10 +313,10 @@ MonoBehaviour:
   hitBox: {fileID: 6359931079183588958, guid: d343aece4c52a804ca6442e8d1ea7d3a, type: 3}
   spawnPoint: {fileID: 2724624629937948908}
   attackHitbox: {fileID: 2724624629937948908}
-  kickHitbox: {fileID: 0}
-  hitboxLifetime: 0
-  speed: 0
-  angle: 0
+  kickHitbox: {fileID: 9200689320520114827}
+  hitboxLifetime: 0.5
+  speed: 15
+  angle: 15
 --- !u!4 &9136156812915596347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: c170cc3e78746ae4b9060c096956111e, type: 3}

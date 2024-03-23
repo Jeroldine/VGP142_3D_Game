@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", moveInputModifier* dir.magnitude);
         cc.Move(moveInputModifier * camRelMoveInput * Time.deltaTime);
 
-        Glare();
+        //Glare();
     }
 
     private Vector3 GetCamRelativeMoveInput(float hInput, float fInput)
@@ -235,27 +235,27 @@ public class PlayerController : MonoBehaviour
         moveInputModifier = mod;
     }
 
-    private void Glare()
-    {
-        RaycastHit hitInfo;
+    //private void Glare()
+    //{
+    //    RaycastHit hitInfo;
 
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 10.0f, Color.red);
-        float castDistance = 20.0f;
-        if (Physics.BoxCast(transform.position, transform.localScale * 0.5f, transform.forward, out hitInfo, transform.rotation, castDistance, enemyCheck))
-        {
-            if (!enemy)
-            {
-                enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
-                enemy.StopMovement();
-            }
-        }
-        else
-        {
-            if (enemy)
-            {
-                enemy.StopMovement(false);
-                enemy = null;
-            }
-        }
-    }
+    //    Debug.DrawLine(transform.position, transform.position + transform.forward * 10.0f, Color.red);
+    //    float castDistance = 20.0f;
+    //    if (Physics.BoxCast(transform.position, transform.localScale * 0.5f, transform.forward, out hitInfo, transform.rotation, castDistance, enemyCheck))
+    //    {
+    //        if (!enemy)
+    //        {
+    //            enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
+    //            enemy.StopMovement();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (enemy)
+    //        {
+    //            enemy.StopMovement(false);
+    //            enemy = null;
+    //        }
+    //    }
+    //}
 }

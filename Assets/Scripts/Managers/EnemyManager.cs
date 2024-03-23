@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 5;
-    //[SerializeField] private DropData itemDrops;
+    [SerializeField] private Pickups itemDrop;
 
     private EnemyHealthBar healthBar;
+    //private NavMeshAgent agent;
     private float _currentHealth;
     public float health => _currentHealth;
 
     private bool _isDead = false;
+
     private bool _isDamaged = false;
+    public bool isDamaged => _isDamaged;
+
     private Animator anim;
 
     private Coroutine DamagableStateCR;
@@ -29,10 +34,13 @@ public class EnemyManager : MonoBehaviour
 
     public void TakeDamage(float healthChange)
     {
-        _currentHealth -= healthChange;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
-        healthBar.UpdateHealthBar(_currentHealth, maxHealth);
-        StartDamageStateChange(1);
+        if (!_isDamaged)
+        {
+            _currentHealth -= healthChange;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
+            healthBar.UpdateHealthBar(_currentHealth, maxHealth);
+            StartDamageStateChange(1);
+        }
 
         if (_currentHealth <= 0 && !_isDead)
         {
@@ -45,6 +53,7 @@ public class EnemyManager : MonoBehaviour
     private void EnemyDeath()
     {
         anim.SetTrigger("Death");
+        GetComponent<NavMeshAgent>().speed = 0;
         DropItem();
         DeathEffect();
         Destroy(gameObject, 5);
@@ -53,7 +62,7 @@ public class EnemyManager : MonoBehaviour
     private void DropItem()
     {
         Debug.Log("Item Drop not implemented");
-        //itemDrops.DropAt(transform);
+        Instantiate(itemDrop, transform.position, transform.rotation);
     }
 
     private void DeathEffect()

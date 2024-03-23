@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7271821225447606932}
   - component: {fileID: 6413714709856742134}
   - component: {fileID: 3082309345481522607}
+  - component: {fileID: -5906614013473957547}
   m_Layer: 7
   m_Name: PoisonMushroom
   m_TagString: Untagged
@@ -130,6 +131,22 @@ MonoBehaviour:
   emitCycle: 3
   cloudPrefab: {fileID: 2269740780215370164, guid: 6d2e43f9d98308744919614d3e46ca4f, type: 3}
   cloudSpawn: {fileID: 6490830961301259460}
+--- !u!208 &-5906614013473957547
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7671721922310266132}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.79, y: 1, z: 0.79}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.91, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &2468279904962507065
 PrefabInstance:
   m_ObjectHideFlags: 0
