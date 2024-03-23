@@ -335,12 +335,14 @@ MonoBehaviour:
 
     WASD - Move
 
+    P - Pause
+
     Shift - Kick
 
-    SPACE - Jump
+    SPACE
+    - Jump
 
-    Mouse
-    - Look
+    Mouse - Look
 
 '
 --- !u!222 &36404214
@@ -1225,7 +1227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1242072015126391970, guid: 32c80594cb2fdd04f8c78a6090977956, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6648170694151331010, guid: 32c80594cb2fdd04f8c78a6090977956, type: 3}
       propertyPath: m_Pivot.x
@@ -2556,18 +2558,20 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Submission
 
-    - enemy patrol
+    - No equipable weapon included
 
-    - enemy chase
-
-    - patrol to chase
+    - can throw a rock
 
     -
-    chase to patrol
+    particle effect on cookie pickup (kill enemy)
 
-    - enemy death and item drop
+    - Beehive particle effect
 
-    - enemy attack'
+    -
+    mushroom cloud particle effect (collide with mushroom)
+
+    - campfire particle
+    effect'
 --- !u!222 &1057374670
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4819,37 +4823,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 588345644805377744, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
+    - target: {fileID: 4252028632821680289, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
       propertyPath: m_TagString
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1363942694273592160, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2639295185250602683, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3626888900384757624, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5207707798846434172, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5546900932540934622, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6174133451120264036, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6815284727650856704, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7317400846373531314, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4890,18 +4866,6 @@ PrefabInstance:
     - target: {fileID: 7317400846373531314, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7528481879391895033, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8270549639462276936, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722536920141205070, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9114896407102578632, guid: 28ecb63a6950a5e49b37c469e7cffb4f, type: 3}
       propertyPath: m_Name

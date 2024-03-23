@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 1502470119646776945}
   m_Layer: 0
   m_Name: FootSpawn
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,9 +260,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7657966619581158213, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -5820070893334345585, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -5561550452697079657, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -4332706925441422008, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -3086436065929644917, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -1200856079203341021, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: -751476226918971245, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
       propertyPath: m_Name
       value: Girlscout T Masuyama@Unarmed Walk Forward
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082271958561512970, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135921509060577837, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: c170cc3e78746ae4b9060c096956111e, type: 3}
       propertyPath: m_Controller
